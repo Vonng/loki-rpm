@@ -1,0 +1,11 @@
+dist/
+.idea/
+.code/
+.DS_Store
+pkg/
+temp/
+
+# ignore loki binary
+SOURCES/*.zip
+RPMS/*.rpm
+loki/RPMS/*.rpm
