@@ -1,12 +1,13 @@
 %define debug_package %{nil}
 
 Name:       loki
-Version:    2.4.2
+Version:    2.5.0
 Release:    1%{?dist}
 Summary:    Loki Logging Service
 URL:        https://github.com/grafana/loki
 Group:      Grafana
 License:    AGPL-3.0 License
+BuildArch:  noarch
 
 Source0: https://github.com/grafana/loki/releases/download/v%{version}/%{name}-linux-amd64.zip
 Source1: https://github.com/grafana/loki/releases/download/v%{version}/%{name}-canary-linux-amd64.zip
@@ -20,9 +21,7 @@ Source5: %{name}.yml
 Requires(pre): shadow-utils
 
 %description
-Loki is an agent which ships the contents of local logs to a private Loki
-instance or Grafana Cloud. It is usually
-deployed to every machine that has applications needed to be monitored.
+Loki is an agent which ships the contents of local logs to a private Loki instance.
 
 It primarily:
 

@@ -1,0 +1,37 @@
+# nfpm example config file
+#
+# check https://nfpm.goreleaser.com/configuration for detailed usage
+#
+name: "loki"
+arch: "amd64"
+platform: "linux"
+version: "v2.5.0"
+version_schema: semver
+description: Loki Logging Service
+maintainer: "rh@vonng.com"
+vendor: "Grafana"
+homepage: "https://github.com/grafana/loki"
+license: "AGPL-3.0 License"
+
+contents:
+- src: bin/loki-linux-amd64
+  dst: /usr/bin/loki
+- src: bin/loki-canary-linux-amd64
+  dst: /usr/bin/loki-canary
+- src: bin/logcli-linux-amd64
+  dst: /usr/bin/logcli
+
+- src: src/loki.yml
+  dst: /etc/loki.yml
+  type: config|noreplace
+
+- src: src/loki.service
+  dst: /usr/lib/systemd/system/loki.service
+  type: config|noreplace
+
+- src: src/loki.default
+  dst: /etc/default/loki
+  type: config|noreplace
+
+scripts:
+  preinstall: src/preinstall.sh

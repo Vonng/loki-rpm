@@ -1,12 +1,13 @@
 %define debug_package %{nil}
 
 Name:       promtail
-Version:    2.4.2
+Version:    2.5.0
 Release:    1%{?dist}
 Summary:    Promtail agent
 URL:        https://github.com/grafana/loki
 Group:      Grafana
 License:    AGPL-3.0 License
+BuildArch:  noarch
 
 Source0: https://github.com/grafana/loki/releases/download/v%{version}/%{name}-linux-amd64.zip
 Source1: %{name}.service
