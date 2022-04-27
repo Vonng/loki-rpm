@@ -2,10 +2,16 @@ dist/
 .idea/
 .code/
 .DS_Store
-pkg/
-temp/
+
+# binary
+bin/logcli-linux-amd64
+bin/logcli-linux-amd64.zip
+bin/loki-canary-linux-amd64
+bin/loki-canary-linux-amd64.zip
+bin/loki-linux-amd64
+bin/loki-linux-amd64.zip
+bin/promtail-linux-amd64
+bin/promtail-linux-amd64.zip
 
 # ignore loki binary
-SOURCES/*.zip
-RPMS/*.rpm
-loki/RPMS/*.rpm
+dist/

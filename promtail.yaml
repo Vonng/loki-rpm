@@ -1,0 +1,42 @@
+# nfpm example config file
+#
+# check https://nfpm.goreleaser.com/configuration for detailed usage
+#
+name: "promtail"
+arch: "amd64"
+platform: "linux"
+version: "v2.5.0"
+version_schema: semver
+vendor: "Grafana"
+homepage: "https://github.com/grafana/loki"
+maintainer: "rh@vonng.com"
+license: "AGPL-3.0 License"
+description: |
+  Promtail is an agent which ships the contents of local logs to a private Loki
+  instance or Grafana Cloud. It is usually
+  deployed to every machine that has applications needed to be monitored.
+
+  It primarily:
+
+  1. Discovers targets
+  2. Attaches labels to log streams
+  3. Pushes them to the Loki instance.
+
+  Currently, Promtail can tail logs from two sources: local log files and the
+  systemd journal (on AMD64 machines only).
+
+contents:
+- src: bin/promtail-linux-amd64
+  dst: /usr/bin/promtail
+
+- src: src/promtail.service
+  dst: /usr/lib/systemd/system/promtail.service
+  type: config|noreplace
+
+- src: src/promtail.yml
+  dst: /etc/promtail.yml
+  type: config|noreplace
+
+- src: src/promtail.default
+  dst: /etc/default/promtail
+  type: config|noreplace

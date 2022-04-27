@@ -1,96 +1,33 @@
 #==============================================================#
 # File      :   Makefile
 # Ctime     :   2022-03-19
-# Mtime     :   2022-03-19
+# Mtime     :   2022-04-28
 # Desc      :   Makefile shortcuts for loki rpm build
-# Path      :   loki/Makefile
+# Path      :   Makefile
 # Copyright (C) 2018-2022 Ruohang Feng (rh@vonng.com)
 #==============================================================#
 
-LOKI_VERSION=2.4.2
-SPEC_REMOTE=/home/vagrant/rpmbuild/SPECS
-SRC_REMOTE=/home/vagrant/rpmbuild/SOURCES
-RPM_REMOTE=/home/vagrant/rpmbuild/RPMS/x86_64
+VERSION=2.5.0
 
-#--------------------------------------------------------------#
-# all
-#--------------------------------------------------------------#
-all: copy build fetch
+all: download unzip rpm deb
 
-#--------------------------------------------------------------#
-# download
-#--------------------------------------------------------------#
 download:
-	SOURCES/download.sh -v $(LOKI_VERSION) -t SOURCES
+	bin/download.sh -v $(VERSION) -t bin
 
-#--------------------------------------------------------------#
-# copy
-#--------------------------------------------------------------#
-copy: copy-pre copy-bin copy-spec copy-conf
-cc: copy
-c: copy-spec copy-conf
+unzip:
+	cd bin && unzip -o logcli-linux-amd64.zip
+	cd bin && unzip -o loki-canary-linux-amd64.zip
+	cd bin && unzip -o loki-linux-amd64.zip
+	cd bin && unzip -o promtail-linux-amd64.zip
 
-copy-pre:
-	ssh meta 'mkdir -p rpmbuild/{SOURCES,SPECS}'
-copy-bin:
-	scp SOURCES/loki-linux-amd64.zip        meta:${SRC_REMOTE}/
-	scp SOURCES/loki-canary-linux-amd64.zip meta:${SRC_REMOTE}/
-	scp SOURCES/logcli-linux-amd64.zip      meta:${SRC_REMOTE}/
-	scp SOURCES/promtail-linux-amd64.zip    meta:${SRC_REMOTE}/
+rpm:
+	nfpm package --config loki.yaml     --packager rpm
+	nfpm package --config promtail.yaml --packager rpm
+	mkdir -p dist/v$(VERSION)
+	mv -f *.rpm dist/v$(VERSION)/
 
-copy-spec:
-	scp SOURCES/loki.spec                   meta:${SPEC_REMOTE}/
-	scp SOURCES/promtail.spec               meta:${SPEC_REMOTE}/
-
-copy-conf:
-	scp SOURCES/loki.service      			meta:${SRC_REMOTE}/
-	scp SOURCES/loki.default      			meta:${SRC_REMOTE}/
-	scp SOURCES/loki.yml          			meta:${SRC_REMOTE}/
-	scp SOURCES/promtail.service  			meta:${SRC_REMOTE}/
-	scp SOURCES/promtail.default  			meta:${SRC_REMOTE}/
-	scp SOURCES/promtail.yml      			meta:${SRC_REMOTE}/
-
-#--------------------------------------------------------------#
-# build
-#--------------------------------------------------------------#
-build:
-	ssh meta rpmbuild -bb $(SPEC_REMOTE)/promtail.spec
-	ssh meta rpmbuild -bb $(SPEC_REMOTE)/loki.spec
-
-fetch:
-	scp meta:$(RPM_REMOTE)/loki-$(LOKI_VERSION)-1.el7.x86_64.rpm      RPMS/
-	scp meta:$(RPM_REMOTE)/promtail-$(LOKI_VERSION)-1.el7.x86_64.rpm  RPMS/
-
-rebuild: copy-spec copy-conf build
-
-
-#--------------------------------------------------------------#
-# test
-#--------------------------------------------------------------#
-upload:
-	scp RPMS/loki-$(LOKI_VERSION)-1.el7.x86_64.rpm      meta:~/
-	scp RPMS/promtail-$(LOKI_VERSION)-1.el7.x86_64.rpm  meta:~/
-
-remove:
-	ssh meta 'sudo systemctl stop loki promtail'
-	ssh meta 'sudo yum remove -y promtail loki'
-	ssh meta 'sudo rm -rf /etc/loki.yml /etc/promtail.yml /var/log/positions.yaml'
-
-install: remove
-	ssh meta sudo rpm -ivh ${RPM_REMOTE}/loki-$(LOKI_VERSION)-1.el7.x86_64.rpm
-	ssh meta sudo rpm -ivh ${RPM_REMOTE}/promtail-$(LOKI_VERSION)-1.el7.x86_64.rpm
-
-ri: reinstall
-reinstall: rebuild install
-
-rl: run-loki
-run-loki:
-	ssh meta sudo systemctl restart loki
-	ssh meta sudo systemctl status loki
-	ssh meta sudo journalctl -xe
-
-rp: run-promtail
-run-promtail:
-	ssh meta sudo systemctl restart promtail
-	ssh meta sudo systemctl status promtail
-	ssh meta sudo journalctl -xe
+deb:
+	nfpm package --config loki.yaml     --packager deb
+	nfpm package --config promtail.yaml --packager deb
+	mkdir -p dist/v$(VERSION)
+	mv -f *.deb dist/v$(VERSION)/
