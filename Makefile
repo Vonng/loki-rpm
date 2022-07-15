@@ -7,7 +7,7 @@
 # Copyright (C) 2018-2022 Ruohang Feng (rh@vonng.com)
 #==============================================================#
 
-VERSION=2.5.0
+VERSION=2.6.0
 
 all: download unzip build
 build: rpm deb

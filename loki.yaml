@@ -5,7 +5,7 @@
 name: "loki"
 arch: "amd64"
 platform: "linux"
-version: "v2.5.0"
+version: "v2.6.0"
 version_schema: semver
 description: Loki Logging Service
 maintainer: "rh@vonng.com"

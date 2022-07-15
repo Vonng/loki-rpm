@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:       loki
-Version:    2.5.0
+Version:    2.6.0
 Release:    1%{?dist}
 Summary:    Loki Logging Service
 URL:        https://github.com/grafana/loki
