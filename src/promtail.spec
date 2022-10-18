@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:       promtail
-Version:    2.6.0
+Version:    2.6.1
 Release:    1%{?dist}
 Summary:    Promtail agent
 URL:        https://github.com/grafana/loki
