@@ -35,8 +35,8 @@ Will use [pigsty](https://github.com/Vonng/pigsty) meta node as build environmen
 * [promtail_2.6.1_amd64.deb](https://github.com/Vonng/loki-rpm/releases/download/v2.6.1/promtail_2.6.1_amd64.deb)
 
 ```bash
-MD5 (loki-2.6.1.x86_64.rpm) = ec93589804dce48359fbcca3fee740c4
-MD5 (loki_2.6.1_amd64.deb) = eea964f04bf58ef9c461b0f08d26b0ff
-MD5 (promtail-2.6.1.x86_64.rpm) = fc3c944c804feefabdc3eb636e3b3c96
-MD5 (promtail_2.6.1_amd64.deb) = 1cb20d572e3f2d41d5f63f92bed3e626
+MD5 (loki-2.6.1.x86_64.rpm) = 4651b7ecd6ce4eb62d6aca69032014b0
+MD5 (loki_2.6.1_amd64.deb) = 4c3bf3afbb78cadd80b40f1cd496c1d4
+MD5 (promtail-2.6.1.x86_64.rpm) = 0120787e97ef173ced2a08020060d620
+MD5 (promtail_2.6.1_amd64.deb) = a3b1cc52be392f0601bd82058d9969af
 ```
